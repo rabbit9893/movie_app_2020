@@ -2,40 +2,20 @@ import React from "react";
 import PropTypes from "prop-types";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log("hello");
-  }
-  /* state 안에는 바꾸고 싶은 data를 넣음 */
   state = {
-    count: 0,
+    isLoading: true,
+    movies: [],
   };
-  add = () => {
-    this.setState((current) => ({ count: current.count + 1 }));
-    /* this.state.count + 1은 좋지 않은 방법, current로 현재의 state를 가져와서 current.count로  */
-  };
-  minus = () => {
-    this.setState((current) => ({ count: current.count - 1 }));
-  };
+  /* render 하면 호출되는 life cycle method(mount 되자마자 호출됨) */
   componentDidMount() {
-    console.log("Component rendered");
-  }
-  componentDidUpdate() {
-    console.log("I just updated");
-  }
-  componentWillUnmount() {
-    console.log("Goodbye, cruel world");
+    // => 이곳에서 data를 fetch함 (API로부터 data fetching 완료 -> movie를 render하고 map을 만들고 movie를 render)
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+    }, 6000);
   }
   render() {
-    console.log("I'm rendering");
-    return (
-      <div>
-        <h1>The number is {this.state.count}</h1>
-        <button onClick={this.add}>Add</button>
-        {/* this.add() => 이거은 function, 클릭했을 때만 function이 호출되기를 원하기 때문(즉시가 아니라) ()는 즉시를 나타냄 */}
-        <button onClick={this.minus}>Minus</button>
-      </div>
-    );
+    const { isLoading } = this.state;
+    return <div>{isLoading ? "Loading..." : "We are ready"}</div>;
   }
 }
 export default App;
